@@ -1,0 +1,85 @@
+
+import asyncio
+import logging
+import os
+import sys
+
+from aiogram import Bot, Dispatcher
+from aiogram.filters import CommandStart
+from aiogram.types import (
+    Message,
+    InlineKeyboardMarkup,
+    InlineKeyboardButton,
+    WebAppInfo,
+)
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)s | %(message)s",
+    stream=sys.stdout,
+)
+
+logger = logging.getLogger("f8_dreams")
+
+BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
+MINI_APP_URL = "https://sapozhonok.github.io/TG-Mini-App/"
+
+dp = Dispatcher()
+
+
+@dp.message(CommandStart())
+async def start_handler(message: Message):
+    keyboard = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text="🏎️ Открыть Ferrari F8",
+                    web_app=WebAppInfo(url=MINI_APP_URL),
+                )
+            ]
+        ]
+    )
+
+    await message.answer(
+        "🏎️ <b>F8 DREAMS</b>\n\n"
+        "Добро пожаловать в розыгрыш Ferrari F8!\n"
+        "Нажми кнопку ниже, чтобы открыть приложение.",
+        reply_markup=keyboard,
+        parse_mode="HTML",
+    )
+
+    logger.info("/start обработан: user_id=%s", message.from_user.id)
+
+
+@dp.message()
+async def other_messages_handler(message: Message):
+    await message.answer(
+        "Привет! 👋\n"
+        "Нажми /start, чтобы открыть приложение Ferrari F8."
+    )
+
+
+async def main():
+    if not BOT_TOKEN:
+        raise RuntimeError(
+            "Не задан BOT_TOKEN. Добавь токен в переменные окружения хостинга."
+        )
+
+    bot = Bot(token=BOT_TOKEN)
+
+    try:
+        me = await bot.get_me()
+        logger.info("Бот запущен: @%s", me.username)
+        await dp.start_polling(bot)
+    finally:
+        await bot.session.close()
+
+
+if __name__ == "__main__":
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        logger.info("Бот остановлен.")
+    except Exception:
+        logger.exception("Ошибка запуска бота.")
+        raise
