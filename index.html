@@ -2,411 +2,573 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Розыгрыш Ferrari F8 — билеты</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#08090c">
+<title>F8 DREAMS — Ferrari F8</title>
+
 <style>
-  :root {
-    --accent: #38bdf8;
-    --accent-glow: rgba(56,189,248,0.35);
-    --gold: #fbbf24;
-    --bg: #06080f;
-    --card: #0f1526;
-    --border: #1e293b;
-    --text: #f1f5f9;
-    --muted: #94a3b8;
-    --green: #10b981;
-    --green-hover: #34d399;
+:root {
+  --bg: #08090c;
+  --panel: #11151c;
+  --line: #293442;
+  --red: #f51e35;
+  --text: #f7f8fb;
+  --muted: #9da9b8;
+  --gold: #ffd16b;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(ellipse at top right, #351017 0, transparent 40%),
+    var(--bg);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+}
+
+button { font: inherit; cursor: pointer; }
+
+header {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  font-weight: 900;
+  letter-spacing: 3px;
+  font-size: 19px;
+}
+
+.brand span { color: var(--red); }
+
+.brand small {
+  display: block;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 3px;
+  margin-top: 4px;
+}
+
+.status {
+  color: #48e5a5;
+  font-size: 12px;
+  border: 1px solid #205941;
+  border-radius: 30px;
+  padding: 8px 12px;
+}
+
+.layout {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 20px;
+}
+
+nav {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 8px;
+  height: max-content;
+  position: sticky;
+  top: 10px;
+}
+
+nav button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  color: var(--muted);
+  border: 0;
+  border-radius: 9px;
+  padding: 13px 10px;
+  margin: 3px 0;
+}
+
+nav button.active {
+  background: #351017;
+  color: white;
+  box-shadow: inset 3px 0 var(--red);
+}
+
+main { min-width: 0; }
+
+.page { display: none; }
+.page.active { display: block; }
+
+.hero {
+  min-height: 430px;
+  border: 1px solid #4a2028;
+  border-radius: 20px;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, #08090cf5 0%, #08090cd9 38%, #08090c30 100%),
+    url("https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1400&q=85")
+    center / cover;
+}
+
+.hero-content {
+  padding: 35px 28px;
+  max-width: 520px;
+}
+
+.eyebrow {
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 4px;
+}
+
+h1 {
+  font-size: clamp(45px, 7vw, 78px);
+  font-style: italic;
+  line-height: .95;
+  margin: 18px 0;
+}
+
+h1 span { color: var(--red); }
+
+.description {
+  color: #d1d6df;
+  line-height: 1.7;
+  max-width: 360px;
+}
+
+.btn {
+  border: 0;
+  border-radius: 12px;
+  padding: 14px 20px;
+  color: white;
+  background: linear-gradient(120deg, #ff3348, #bd001a);
+  font-weight: bold;
+  box-shadow: 0 8px 25px #ed163328;
+}
+
+.btn:hover { filter: brightness(1.12); }
+
+.btn.full { width: 100%; }
+
+.count-label {
+  margin-top: 27px;
+  font-size: 11px;
+  color: #c5ccd6;
+  letter-spacing: 2px;
+}
+
+.countdown {
+  display: flex;
+  gap: 7px;
+  margin-top: 10px;
+  max-width: 350px;
+}
+
+.time {
+  flex: 1;
+  background: #0b0d12e8;
+  border: 1px solid #39414d;
+  border-radius: 10px;
+  padding: 11px 4px;
+  text-align: center;
+}
+
+.time strong {
+  display: block;
+  font-size: 24px;
+}
+
+.time small {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.date {
+  color: #bac4d0;
+  font-size: 12px;
+  margin-top: 12px;
+}
+
+h2 { font-size: 23px; margin: 28px 0 14px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.card {
+  background: linear-gradient(145deg, #161b24, #0e1117);
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  padding: 17px;
+  margin-bottom: 10px;
+}
+
+.card h3 { margin: 5px 0 8px; }
+
+.muted {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.price {
+  font-size: 22px;
+  font-weight: 900;
+  margin: 12px 0 5px;
+}
+
+.option {
+  width: 100%;
+  text-align: left;
+  color: white;
+  background: #0c1016;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 15px;
+  margin: 5px 0;
+}
+
+.option.selected {
+  border-color: var(--red);
+  background: #270c12;
+}
+
+.option small {
+  display: block;
+  color: var(--muted);
+  margin-top: 5px;
+}
+
+.payment {
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: #0c1016;
+  padding: 13px;
+  margin: 8px 0;
+  cursor: pointer;
+}
+
+.payment input { accent-color: var(--red); }
+
+.promo {
+  background: #2b0c13;
+  border: 1px solid var(--red);
+  padding: 15px;
+  border-radius: 12px;
+  margin: 14px 0;
+}
+
+.promo b { color: #ff5263; }
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.ticket {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.badge {
+  background: #073a2a;
+  color: #53e9b0;
+  padding: 5px 9px;
+  border-radius: 30px;
+  font-size: 10px;
+}
+
+.rule {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+footer {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+  color: #758191;
+  font-size: 11px;
+  border-top: 1px solid var(--line);
+}
+
+#toast {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1b222d;
+  border: 1px solid #536174;
+  border-radius: 12px;
+  padding: 13px 18px;
+  display: none;
+  width: max-content;
+  max-width: 90%;
+  text-align: center;
+  z-index: 10;
+}
+
+@media (max-width: 700px) {
+  .layout {
+    display: block;
+    padding: 12px;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  html, body { height: 100%; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding-bottom: 100px;
-    overflow-x: hidden;
+
+  nav {
+    position: fixed;
+    z-index: 5;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    border-radius: 14px 14px 0 0;
+    display: flex;
+    padding: 5px 2px;
+    justify-content: space-around;
+    background: #090c11f5;
   }
-  .container { max-width: 500px; margin: 0 auto; padding: 16px; position: relative; z-index: 1; }
-  .shine {
-    position: fixed; top: -10%; left: -10%; width: 70vw; height: 70vw;
-    background: radial-gradient(circle, rgba(56,189,248,0.08) 0%, transparent 50%);
-    pointer-events: none; z-index: 0;
+
+  nav button {
+    font-size: 10px;
+    text-align: center;
+    padding: 10px 3px;
+    margin: 0;
   }
-  header { text-align: center; margin-bottom: 16px; }
-  header h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 6px; background: linear-gradient(to right, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  header p { font-size: 13px; color: var(--muted); }
-  .badge { display: inline-block; margin-bottom: 12px; padding: 6px 12px; border-radius: 999px; background: rgba(251,191,36,0.15); border: 1px solid rgba(251,191,36,0.35); color: var(--gold); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
-  .car-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 22px;
-    padding: 20px;
-    margin-bottom: 16px;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+
+  nav button.active {
+    box-shadow: inset 0 2px var(--red);
   }
-  .car-card img {
-    width: 100%; height: 200px; object-fit: cover; border-radius: 16px;
-    margin-bottom: 12px; background: #1e293b; display: block;
-  }
-  .car-card h2 { font-size: 19px; font-weight: 800; margin-bottom: 4px; }
-  .car-card p { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
-  .price-tag {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 10px 16px; border-radius: 14px;
-    background: rgba(56,189,248,0.1); border: 1px solid rgba(56,189,248,0.25);
-    color: var(--accent); font-size: 15px; font-weight: 800;
-  }
-  .user-bar {
-    display: flex; align-items: center; gap: 10px;
-    padding: 12px 16px; background: var(--card); border: 1px solid var(--border);
-    border-radius: 16px; margin-bottom: 16px; font-size: 13px;
-  }
-  .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #818cf8); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; color: #000; flex-shrink: 0; }
-  .user-info { flex: 1; }
-  .user-name { font-weight: 700; color: var(--text); }
-  .user-handle { font-size: 11px; color: var(--muted); }
-  .tab-row { display: flex; gap: 8px; margin-bottom: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 4px; }
-  .tab { flex: 1; padding: 8px 6px; border-radius: 10px; border: none; background: transparent; color: var(--muted); font-size: 12px; font-weight: 700; cursor: pointer; }
-  .tab.active { background: var(--accent); color: var(--bg); }
-  .method-wrap { margin-bottom: 12px; }
-  .method-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; margin-bottom: 8px; cursor: pointer; transition: border 0.2s; }
-  .method-card.selected { border-color: var(--accent); background: rgba(56,189,248,0.05); }
-  .method-card .title { font-weight: 700; color: var(--text); margin-bottom: 4px; }
-  .method-card .price { font-size: 13px; color: var(--muted); }
-  .method-card .price .big { font-size: 18px; font-weight: 800; color: var(--text); }
-  .method-card .note { font-size: 11px; color: var(--muted); margin-top: 4px; }
-  .usdt-banner {
-    background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.25); border-radius: 12px; padding: 12px; margin-bottom: 12px; font-size: 12px; color: var(--gold); text-align: center; line-height: 1.4;
-  }
-  .controls {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 20px; padding: 18px 16px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 14px;
-  }
-  .controls-label { font-size: 13px; color: var(--muted); font-weight: 700; }
-  .row { display: flex; align-items: center; justify-content: space-between; }
-  .btn-count { width: 42px; height: 42px; border-radius: 14px; border: 1px solid var(--accent); background: rgba(56,189,248,0.08); color: var(--accent); font-size: 20px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.1s; }
-  .btn-count:active { transform: scale(0.92); background: var(--accent); color: var(--bg); }
-  .count { font-size: 24px; font-weight: 800; min-width: 32px; text-align: center; color: var(--text); }
-  .total { display: flex; align-items: baseline; justify-content: space-between; font-size: 14px; color: var(--muted); padding-top: 8px; border-top: 1px solid var(--border); }
-  .total .amount { font-size: 26px; font-weight: 800; color: var(--text); }
-  .breakdown { font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.4; }
-  .hint { font-size: 12px; color: var(--muted); text-align: center; margin-bottom: 6px; line-height: 1.4; }
-  .main-btn { width: 100%; padding: 16px; border-radius: 16px; border: none; background: var(--accent); color: var(--bg); font-size: 17px; font-weight: 800; cursor: pointer; box-shadow: 0 8px 24px var(--accent-glow); }
-  .main-btn:active:not(:disabled) { transform: translateY(1px); box-shadow: 0 4px 12px var(--accent-glow); }
-  .main-btn:disabled { opacity: 0.55; cursor: not-allowed; background: #334155; color: #64748b; box-shadow: none; }
-  .modal {
-    position: fixed; inset: 0; background: rgba(6,8,15,0.8); backdrop-filter: blur(10px); z-index: 100;
-    display: none; align-items: center; justify-content: center; padding: 16px;
-  }
-  .modal.open { display: flex; }
-  .modal-card { background: var(--card); border: 1px solid var(--border); border-radius: 22px; padding: 24px 20px; width: 100%; max-width: 350px; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
-  .close-modal { position: absolute; top: 16px; right: 18px; font-size: 28px; color: var(--muted); cursor: pointer; line-height: 1; }
-  .modal-card h3 { font-size: 18px; font-weight: 800; margin-bottom: 18px; text-align: center; }
-  .pay-option { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
-  .pay-option:last-child { border-bottom: none; }
-  .pay-option .label { font-size: 14px; color: var(--text); font-weight: 600; }
-  .pay-option .price { font-size: 14px; font-weight: 800; color: var(--accent); }
-  .pay-option input { accent-color: var(--accent); width: 18px; height: 18px; }
-  .pay-btn { width: 100%; padding: 15px; border-radius: 14px; border: none; background: var(--green); color: #fff; font-size: 16px; font-weight: 800; cursor: pointer; margin-top: 22px; box-shadow: 0 8px 20px rgba(16,185,129,0.35); }
-  .pay-btn:active { transform: translateY(1px); background: var(--green-hover); }
-  .success {
-    position: fixed; inset: 0; background: var(--bg); z-index: 110;
-    display: none; align-items: center; justify-content: center; flex-direction: column; padding: 24px; text-align: center;
-  }
-  .success.open { display: flex; }
-  .success .check { width: 64px; height: 64px; border-radius: 50%; background: rgba(16,185,129,0.15); border: 2px solid var(--green); display: flex; align-items: center; justify-content: center; font-size: 30px; color: var(--green); margin-bottom: 16px; animation: pop 0.5s cubic-bezier(0.175,0.885,0.32,1.275); }
-  @keyframes pop { 0%{transform:scale(0)} 70%{transform:scale(1.15)} 100%{transform:scale(1)} }
-  .success h2 { font-size: 20px; font-weight: 800; margin-bottom: 8px; color: var(--text); }
-  .success p { font-size: 14px; color: var(--muted); margin-bottom: 16px; }
-  .success .rows { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
-  .success .row { display: flex; justify-content: space-between; font-size: 14px; color: var(--muted); }
-  .success .row .val { color: var(--text); font-weight: 700; }
-  .success .btn { padding: 12px 26px; border-radius: 12px; border: 1px solid var(--border); background: transparent; color: var(--text); font-weight: 700; cursor: pointer; }
-  .success .btn:active { background: #1e293b; }
-  .success .btn.primary { background: var(--accent); color: var(--bg); border: none; }
-  .tickets-wrap { margin-top: 10px; }
-  .tickets-label { font-size: 12px; color: var(--muted); margin-bottom: 8px; font-weight: 700; }
-  .ticket-strip { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; }
-  .ticket-strip::-webkit-scrollbar { display: none; }
-  .ticket { width: 82px; height: 115px; border-radius: 14px; border: 2px dashed rgba(56,189,248,0.35); background: rgba(255,255,255,0.03); flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--muted); font-size: 10px; font-weight: 800; position: relative; }
-  .ticket.active { border-style: solid; border-color: var(--accent); color: var(--text); background: rgba(56,189,248,0.08); }
-  .ticket .num { font-size: 17px; font-weight: 900; color: var(--accent); margin-bottom: 4px; }
-  .ticket.active .num { color: var(--text); }
-  .ticket .paid { font-size: 10px; margin-top: 2px; }
+
+  main { padding-bottom: 75px; }
+
+  .hero { min-height: 440px; background-position: 58% center; }
+  .hero-content { padding: 25px 18px; }
+  h1 { font-size: 53px; }
+  .grid { grid-template-columns: 1fr; }
+  header { padding: 14px 10px; }
+  .brand { font-size: 16px; }
+  .status { font-size: 10px; padding: 7px; }
+}
 </style>
 </head>
+
 <body>
-<div class="shine"></div>
-<div class="container">
-  <header>
-    <div class="badge">Премиальный розыгрыш</div>
-    <h1>Ferrari F8 Tributo</h1>
-    <p>Один билет — шанс стать владельцем суперкара</p>
-  </header>
 
-  <div class="car-card">
-    <img src="https://images.unsplash.com/photo-1618440406721-75c9a829c2e5?w=900&auto=format&fit=crop&q=80&fm=jpg" alt="Ferrari F8">
-    <h2>Ferrari F8 Tributo</h2>
-    <p>2024 год • 720 л.с. • 340 км/ч</p>
-    <div class="price-tag">От 5 000 ₽ за билет</div>
+<header>
+  <div class="brand">🏎️ F8 <span>DREAMS</span>
+    <small>THE ULTIMATE GIVEAWAY</small>
   </div>
+  <div class="status">● Розыгрыш открыт</div>
+</header>
 
-  <div class="usdt-banner">
-    💎 USDT: 1 билет = 50 USDT. За каждые 10 оплаченных билетов +10 бонусных в подарок.
-  </div>
+<div class="layout">
 
-  <div class="user-bar">
-    <div class="user-avatar" id="userAvatar">?</div>
-    <div class="user-info">
-      <div class="user-name" id="userName">Загрузка...</div>
-      <div class="user-handle" id="userHandle"></div>
+<nav>
+  <button class="active" data-page="home">⌂ Главная</button>
+  <button data-page="prizes">♛ Призы</button>
+  <button data-page="buy">🎟 Купить</button>
+  <button data-page="tickets">▤ Билеты</button>
+  <button data-page="rules">ⓘ Правила</button>
+  <button data-page="profile">♙ Профиль</button>
+</nav>
+
+<main>
+
+<section class="page active" id="home">
+  <div class="hero">
+    <div class="hero-content">
+      <div class="eyebrow">ГЛАВНЫЙ ПРИЗ</div>
+      <h1>FERRARI <span>F8</span></h1>
+      <p class="description">
+        Легендарный суперкар. Мощность, стиль и эмоции.
+        Возможно, именно ты станешь его следующим владельцем.
+      </p>
+      <button class="btn" onclick="showPage('buy')">УЧАСТВОВАТЬ →</button>
+
+      <div class="count-label">ДО КОНЦА РОЗЫГРЫША</div>
+      <div class="countdown">
+        <div class="time"><strong id="days">—</strong><small>дней</small></div>
+        <div class="time"><strong id="hours">—</strong><small>часов</small></div>
+        <div class="time"><strong id="minutes">—</strong><small>минут</small></div>
+        <div class="time"><strong id="seconds">—</strong><small>секунд</small></div>
+      </div>
+      <div class="date">▦ &nbsp;31 октября 2026</div>
     </div>
   </div>
 
-  <div class="tab-row">
-    <button class="tab active" id="tabRub">₽ Рубль</button>
-    <button class="tab" id="tabUsdt">₿ USDT</button>
-  </div>
-
-  <div id="methodRub" class="method-wrap">
-    <div class="method-card selected" id="card1">
-      <div class="title">1 билет</div>
-      <div class="price">5 000 <span class="big">₽</span></div>
-      <div class="note">1 билет на розыгрыш</div>
+  <h2>Выбери свой шанс</h2>
+  <div class="grid">
+    <div class="card">
+      <div style="font-size:25px">🎟️</div>
+      <h3>1 билет</h3>
+      <div class="price">5 000 ₽</div>
+      <div class="muted">Начни участие</div>
     </div>
-    <div class="method-card" id="card4">
-      <div class="title">4 и более (пакет)</div>
-      <div class="price">10 000 <span class="big">₽ + 5 000 ₽/шт</span></div>
-      <div class="note">4 билета = 10 000 ₽, каждый следующий +5 000 ₽</div>
+    <div class="card">
+      <div style="font-size:25px">🎫</div>
+      <h3>4 билета</h3>
+      <div class="price">10 000 ₽</div>
+      <div class="muted">Выгодный пакет</div>
     </div>
-  </div>
-
-  <div id="methodUsdt" class="method-wrap" style="display:none">
-    <div class="method-card selected" id="cardUsdt1">
-      <div class="title">1 билет (USDT)</div>
-      <div class="price">50 <span class="big">USDT</span></div>
-      <div class="note">Бонус: +10 за каждые 10 билетов</div>
+    <div class="card">
+      <div style="font-size:25px">₮</div>
+      <h3>USDT-бонус</h3>
+      <div class="price">10 + 10</div>
+      <div class="muted">Бонус при соблюдении условий акции</div>
     </div>
   </div>
+</section>
 
-  <div class="controls">
-    <div class="controls-label">Количество билетов</div>
-    <div class="row">
-      <button class="btn-count" id="btnMinus">−</button>
-      <span class="count" id="count">1</span>
-      <button class="btn-count" id="btnPlus">+</button>
-    </div>
-    <div class="tickets-wrap">
-      <div class="tickets-label">Ваши билеты</div>
-      <div class="ticket-strip" id="ticketStrip"></div>
-    </div>
-    <div class="total">
-      <span class="label">Итого</span>
-      <span class="amount" id="total">5 000 ₽</span>
-    </div>
-    <div class="breakdown" id="breakdown"></div>
+<section class="page" id="prizes">
+  <h2>🏆 Призы розыгрыша</h2>
+  <div class="card"><h3>🏎️ 1 место — Ferrari F8</h3><p class="muted">Главный приз</p></div>
+  <div class="card"><h3>💰 2 место — 5 000 000 ₽</h3><p class="muted">Денежный приз</p></div>
+  <div class="card"><h3>💵 3 место — 2 000 000 ₽</h3><p class="muted">Денежный приз</p></div>
+  <div class="card"><h3>📱 4 место — iPhone 16 Pro</h3><p class="muted">256 ГБ</p></div>
+  <div class="card"><h3>🎮 5 место — PlayStation 5</h3><p class="muted">Игровая консоль</p></div>
+  <p class="muted">Это пример наполнения. Подтверди реальные призы перед публикацией.</p>
+</section>
+
+<section class="page" id="buy">
+  <h2>🎟 Купить билеты</h2>
+  <div class="card">
+    <h3>1. Выбери пакет</h3>
+    <button class="option selected" data-count="1" data-price="5000">
+      <b>1 билет</b><small>5 000 ₽</small>
+    </button>
+    <button class="option" data-count="4" data-price="10000">
+      <b>4 билета</b><small>10 000 ₽</small>
+    </button>
+    <button class="option" data-count="10" data-price="42500">
+      <b>10 билетов за USDT</b><small>≈ $500 · бонус +10 билетов</small>
+    </button>
   </div>
 
-  <div class="hint">Тестовый режим. После оплаты билеты привяжутся к аккаунту Telegram.</div>
-  <button class="main-btn" id="mainBtn">Оформить заказ</button>
+  <div class="card">
+    <h3>2. Способ оплаты</h3>
+    <label class="payment"><input type="radio" name="pay" value="Сбербанк" checked> 🟢 Сбербанк</label>
+    <label class="payment"><input type="radio" name="pay" value="Банковская карта"> 💳 Банковская карта</label>
+    <label class="payment"><input type="radio" name="pay" value="USDT TRC20"> ₮ USDT TRC20</label>
+  </div>
+
+  <div class="card">
+    <h3>Детали заказа</h3>
+    <div class="row"><span class="muted">Пакет</span><b id="sumCount">1 билет</b></div>
+    <div class="row"><span class="muted">Оплата</span><b id="sumMethod">Сбербанк</b></div>
+    <div class="row"><span class="muted">Итого</span><b id="sumPrice">5 000 ₽</b></div>
+    <div class="promo"><b>🔥 SPECIAL OFFER</b><p>При оплате 10 билетов в USDT предусмотрено 10 дополнительных билетов — после подтверждения платежа сервером.</p></div>
+    <button class="btn full" onclick="demoPay()">ПРОДОЛЖИТЬ →</button>
+    <p class="muted">Демо-режим: деньги не списываются, заказ не создаётся.</p>
+  </div>
+</section>
+
+<section class="page" id="tickets">
+  <h2>▤ Мои билеты</h2>
+  <div class="card">
+    <p class="muted">В демоверсии настоящие билеты ещё не выпускаются.</p>
+    <button class="btn" onclick="showPage('buy')">Выбрать пакет</button>
+  </div>
+</section>
+
+<section class="page" id="rules">
+  <h2>ⓘ Правила розыгрыша</h2>
+  <div class="rule card"><h3>📅 Период проведения</h3><p class="muted">Предварительная дата окончания — 31 октября 2026 года.</p></div>
+  <div class="rule card"><h3>🏎️ Главный приз</h3><p class="muted">Ferrari F8. Условия передачи автомобиля и связанные расходы необходимо указать в официальных правилах.</p></div>
+  <div class="rule card"><h3>🎟️ Билеты</h3><p class="muted">В рабочей версии билеты выдаются только после подтверждения оплаты сервером.</p></div>
+  <div class="rule card"><h3>⚖️ Важно</h3><p class="muted">Перед приёмом денег проверь требования законодательства к розыгрышам, платежам, рекламе и защите персональных данных.</p></div>
+</section>
+
+<section class="page" id="profile">
+  <h2>♙ Профиль</h2>
+  <div class="card">
+    <div style="font-size:45px">👤</div>
+    <h3>Гость</h3>
+    <p class="muted">Telegram пока не подключён.</p>
+    <button class="btn secondary" onclick="showPage('tickets')">Мои билеты →</button>
+  </div>
+</section>
+
+</main>
 </div>
 
-<div class="modal" id="modal">
-  <div class="close-modal" id="closeModal">×</div>
-  <div class="modal-card">
-    <h3>Оплата заказа</h3>
-    <div class="pay-option">
-      <label class="label">Тестовая оплата (мок)</label>
-      <div class="price" id="payPrice">5 000 ₽</div>
-    </div>
-    <button class="pay-btn" id="payBtn">Оплатить (тест)</button>
-  </div>
-</div>
+<footer>
+  F8 DREAMS · ДЕМОНСТРАЦИОННЫЙ ПРОТОТИП.
+  Оплата, база данных, Telegram-авторизация и настоящая выдача билетов не подключены.
+</footer>
 
-<div class="success" id="success">
-  <div class="check">✓</div>
-  <h2>Оплата подтверждена</h2>
-  <p>Ваши билеты готовы</p>
-  <div class="rows">
-    <div class="row"><span>Всего билетов</span><span class="val" id="succCount">1</span></div>
-    <div class="row"><span>Сумма</span><span class="val" id="succSum">5 000 ₽</span></div>
-  </div>
-  <button class="btn primary" id="btnShowTickets">Показать билеты</button>
-  <button class="btn" id="btnShare">Поделиться</button>
-</div>
+<div id="toast"></div>
 
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
-  const tg = window.Telegram.WebApp;
-  tg.ready();
-  tg.expand();
-  tg.setHeaderColor(tg.themeParams.bg_color || '#06080f');
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === id));
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.page === id));
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+document.querySelectorAll('nav button').forEach(b => b.addEventListener('click', () => showPage(b.dataset.page)));
 
-  const userAvatar = document.getElementById('userAvatar');
-  const userName = document.getElementById('userName');
-  const userHandle = document.getElementById('userHandle');
-  const countEl = document.getElementById('count');
-  const totalEl = document.getElementById('total');
-  const payPrice = document.getElementById('payPrice');
-  const breakdownEl = document.getElementById('breakdown');
-  const btnMinus = document.getElementById('btnMinus');
-  const btnPlus = document.getElementById('btnPlus');
-  const mainBtn = document.getElementById('mainBtn');
-  const modal = document.getElementById('modal');
-  const closeModal = document.getElementById('closeModal');
-  const payBtn = document.getElementById('payBtn');
-  const success = document.getElementById('success');
-  const succCount = document.getElementById('succCount');
-  const succSum = document.getElementById('succSum');
-  const btnShowTickets = document.getElementById('btnShowTickets');
-  const btnShare = document.getElementById('btnShare');
-  const ticketStrip = document.getElementById('ticketStrip');
-  const tabRub = document.getElementById('tabRub');
-  const tabUsdt = document.getElementById('tabUsdt');
-  const methodRub = document.getElementById('methodRub');
-  const methodUsdt = document.getElementById('methodUsdt');
+let pack = {count: 1, price: 5000};
+const money = n => new Intl.NumberFormat('ru-RU').format(n) + ' ₽';
 
-  const RUB_1 = 5000;
-  const RUB_4_PACK = 10000; // 4 билета = 10 000 ₽
-  const USDT_1 = 50;
+function updateSummary() {
+  const method = document.querySelector('input[name="pay"]:checked').value;
+  document.getElementById('sumMethod').textContent = method;
+  document.getElementById('sumCount').textContent =
+    pack.count === 10 ? (method.startsWith('USDT') ? '10 + 10 бонусных' : '10 билетов; бонус недоступен') :
+    pack.count + (pack.count === 1 ? ' билет' : ' билета');
+  document.getElementById('sumPrice').textContent =
+    pack.count === 10 && method.startsWith('USDT') ? '≈ $500 / 42 500 ₽' : money(pack.price);
+}
 
-  let mode = 'rub';
-  let count = 1;
-
-  const user = tg.initDataUnsafe.user;
-  if (user) {
-    const initials = (user.first_name ? user.first_name[0] : '?') + (user.last_name ? user.last_name[0] : '');
-    userAvatar.textContent = initials || '?';
-    userName.textContent = user.first_name + (user.last_name ? ' ' + user.last_name : '');
-    userHandle.textContent = user.username ? '@' + user.username : '';
-  } else {
-    userAvatar.textContent = '?';
-    userName.textContent = 'Гость';
-    userHandle.textContent = '';
-  }
-
-  function formatMoney(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
-
-  function calc() {
-    if (mode === 'rub') {
-      let total, note;
-      if (count >= 4) {
-        total = RUB_4_PACK + (count - 4) * RUB_1;
-        note = 'Пакет 4 шт (10 000 ₽) + ' + (count - 4) + ' × 5 000 ₽';
-      } else {
-        total = count * RUB_1;
-        note = count + ' × 5 000 ₽';
-      }
-      return {
-        total: total,
-        label: formatMoney(total) + ' ₽',
-        currency: '₽',
-        tickets: count,
-        bonus: 0,
-        note: note
-      };
-    } else {
-      const paidTickets = count;
-      const bonusTickets = Math.floor(count / 10) * 10;
-      const totalTickets = paidTickets + bonusTickets;
-      const totalUsdt = paidTickets * USDT_1;
-      let note = paidTickets + ' × 50 USDT = ' + totalUsdt + ' USDT';
-      if (bonusTickets > 0) note += ' + ' + bonusTickets + ' бонусных билетов';
-      return {
-        total: totalUsdt,
-        label: totalUsdt + ' USDT',
-        currency: 'USDT',
-        tickets: totalTickets,
-        paid: paidTickets,
-        bonus: bonusTickets,
-        note: note
-      };
-    }
-  }
-
-  function renderTickets(totalTickets, paidTickets) {
-    ticketStrip.innerHTML = '';
-    const show = totalTickets || count;
-    for (let i = 0; i < show; i++) {
-      const el = document.createElement('div');
-      el.className = 'ticket active';
-      const isBonus = i >= (paidTickets || count);
-      el.innerHTML = '<div class="num">#' + (i + 1) + '</div>' + (isBonus ? '<div class="paid">Бонус</div>' : '<div class="paid">Оплачен</div>');
-      ticketStrip.appendChild(el);
-    }
-  }
-
-  function updateTotal() {
-    const c = calc();
-    countEl.textContent = count;
-    totalEl.textContent = c.label;
-    payPrice.textContent = c.label;
-    breakdownEl.textContent = c.note;
-    mainBtn.textContent = 'Оформить заказ на ' + c.label;
-    tg.MainButton.setText(mainBtn.textContent);
-    renderTickets(c.tickets, c.paid || count);
-  }
-
-  btnMinus.addEventListener('click', () => { if (count > 1) { count--; updateTotal(); } });
-  btnPlus.addEventListener('click', () => { count++; updateTotal(); });
-
-  tabRub.addEventListener('click', () => {
-    mode = 'rub';
-    tabRub.classList.add('active');
-    tabUsdt.classList.remove('active');
-    methodRub.style.display = 'block';
-    methodUsdt.style.display = 'none';
-    updateTotal();
+document.querySelectorAll('[data-count]').forEach(button => {
+  button.addEventListener('click', () => {
+    document.querySelectorAll('[data-count]').forEach(b => b.classList.remove('selected'));
+    button.classList.add('selected');
+    pack = {count: Number(button.dataset.count), price: Number(button.dataset.price)};
+    updateSummary();
   });
-  tabUsdt.addEventListener('click', () => {
-    mode = 'usdt';
-    tabUsdt.classList.add('active');
-    tabRub.classList.remove('active');
-    methodRub.style.display = 'none';
-    methodUsdt.style.display = 'block';
-    updateTotal();
-  });
+});
+document.querySelectorAll('input[name="pay"]').forEach(input => input.addEventListener('change', updateSummary));
 
-  mainBtn.addEventListener('click', () => { modal.classList.add('open'); });
-  closeModal.addEventListener('click', () => { modal.classList.remove('open'); });
+function demoPay() {
+  const toast = document.getElementById('toast');
+  toast.textContent = 'Демо-режим: платёж не подключён. Деньги не списаны.';
+  toast.style.display = 'block';
+  clearTimeout(window.toastTimer);
+  window.toastTimer = setTimeout(() => toast.style.display = 'none', 3500);
+}
 
-  payBtn.addEventListener('click', () => {
-    const c = calc();
-    const order = {
-      item: 'Ferrari F8 — билет на розыгрыш',
-      quantity: count,
-      amount: c.total,
-      currency: mode,
-      tickets: c.tickets,
-      bonus: c.bonus || 0,
-      user: user ? { id: user.id, first_name: user.first_name, username: user.username } : null,
-      time: Date.now(),
-      test: true
-    };
-    tg.sendData(JSON.stringify(order));
-    tg.showAlert('Тестовый заказ отправлен боту.');
-    modal.classList.remove('open');
-    succCount.textContent = c.tickets;
-    succSum.textContent = c.label;
-    success.classList.add('open');
-    mainBtn.textContent = 'Заказ оформлен';
-    mainBtn.disabled = true;
-    tg.MainButton.setText(mainBtn.textContent);
-  });
-
-  btnShowTickets.addEventListener('click', () => { tg.showAlert('Билеты сохранены в профиле.'); });
-  btnShare.addEventListener('click', () => {
-    tg.switchInlineQuery('Прими участие в розыгрыше Ferrari F8! t.me/Chebotarev_ticket_bot/Chebotarev');
-  });
-
-  tg.MainButton.setText(mainBtn.textContent);
-  tg.MainButton.show();
-  tg.MainButton.onClick(() => { modal.classList.add('open'); });
-
-  updateTotal();
+function updateCountdown() {
+  const end = new Date('2026-10-31T23:59:59');
+  let diff = Math.max(0, end.getTime() - Date.now());
+  const d = Math.floor(diff / 86400000); diff %= 86400000;
+  const h = Math.floor(diff / 3600000); diff %= 3600000;
+  const m = Math.floor(diff / 60000); diff %= 60000;
+  const s = Math.floor(diff / 1000);
+  document.getElementById('days').textContent = d;
+  document.getElementById('hours').textContent = String(h).padStart(2, '0');
+  document.getElementById('minutes').textContent = String(m).padStart(2, '0');
+  document.getElementById('seconds').textContent = String(s).padStart(2, '0');
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
 </script>
 </body>
 </html>
