@@ -178,9 +178,9 @@
       <div class="note">1 билет на розыгрыш</div>
     </div>
     <div class="method-card" id="card4">
-      <div class="title">4 билета (пакет)</div>
-      <div class="price">10 000 <span class="big">₽</span></div>
-      <div class="note">4 билета (экономия 10 000 ₽)</div>
+      <div class="title">4 и более (пакет)</div>
+      <div class="price">10 000 <span class="big">₽ + 5 000 ₽/шт</span></div>
+      <div class="note">4 билета = 10 000 ₽, каждый следующий +5 000 ₽</div>
     </div>
   </div>
 
@@ -269,9 +269,8 @@
   const methodRub = document.getElementById('methodRub');
   const methodUsdt = document.getElementById('methodUsdt');
 
-  // Цены из ТЗ
   const RUB_1 = 5000;
-  const RUB_4 = 10000;
+  const RUB_4_PACK = 10000; // 4 билета = 10 000 ₽
   const USDT_1 = 50;
 
   let mode = 'rub';
@@ -293,13 +292,9 @@
 
   function calc() {
     if (mode === 'rub') {
-      // Рубли: 1 шт = 5000, 4 шт = 10000, 5+ = 10000 + (n-4)*5000
       let total, note;
-      if (count === 4) {
-        total = RUB_4;
-        note = 'Пакет 4 билета = 10 000 ₽';
-      } else if (count > 4) {
-        total = RUB_4 + (count - 4) * RUB_1;
+      if (count >= 4) {
+        total = RUB_4_PACK + (count - 4) * RUB_1;
         note = 'Пакет 4 шт (10 000 ₽) + ' + (count - 4) + ' × 5 000 ₽';
       } else {
         total = count * RUB_1;
@@ -314,7 +309,6 @@
         note: note
       };
     } else {
-      // USDT: 1 билет = 50 USDT. За каждые 10 оплаченных +10 бонусных.
       const paidTickets = count;
       const bonusTickets = Math.floor(count / 10) * 10;
       const totalTickets = paidTickets + bonusTickets;
