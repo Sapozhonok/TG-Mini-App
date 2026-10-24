@@ -68,6 +68,19 @@
   .user-info { flex: 1; }
   .user-name { font-weight: 700; color: var(--text); }
   .user-handle { font-size: 11px; color: var(--muted); }
+  .tab-row { display: flex; gap: 8px; margin-bottom: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 4px; }
+  .tab { flex: 1; padding: 8px 6px; border-radius: 10px; border: none; background: transparent; color: var(--muted); font-size: 12px; font-weight: 700; cursor: pointer; }
+  .tab.active { background: var(--accent); color: var(--bg); }
+  .method-wrap { margin-bottom: 12px; }
+  .method-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; margin-bottom: 8px; cursor: pointer; transition: border 0.2s; }
+  .method-card.selected { border-color: var(--accent); background: rgba(56,189,248,0.05); }
+  .method-card .title { font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .method-card .price { font-size: 13px; color: var(--muted); }
+  .method-card .price .big { font-size: 18px; font-weight: 800; color: var(--text); }
+  .method-card .note { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .usdt-banner {
+    background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.25); border-radius: 12px; padding: 12px; margin-bottom: 12px; font-size: 12px; color: var(--gold); text-align: center; line-height: 1.4;
+  }
   .controls {
     background: var(--card); border: 1px solid var(--border);
     border-radius: 20px; padding: 18px 16px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 14px;
@@ -77,22 +90,13 @@
   .btn-count { width: 42px; height: 42px; border-radius: 14px; border: 1px solid var(--accent); background: rgba(56,189,248,0.08); color: var(--accent); font-size: 20px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.1s; }
   .btn-count:active { transform: scale(0.92); background: var(--accent); color: var(--bg); }
   .count { font-size: 24px; font-weight: 800; min-width: 32px; text-align: center; color: var(--text); }
-  .total { display: flex; align-items: baseline; justify-content: space-between; font-size: 14px; color: var(--muted); }
+  .total { display: flex; align-items: baseline; justify-content: space-between; font-size: 14px; color: var(--muted); padding-top: 8px; border-top: 1px solid var(--border); }
   .total .amount { font-size: 26px; font-weight: 800; color: var(--text); }
+  .breakdown { font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.4; }
   .hint { font-size: 12px; color: var(--muted); text-align: center; margin-bottom: 6px; line-height: 1.4; }
   .main-btn { width: 100%; padding: 16px; border-radius: 16px; border: none; background: var(--accent); color: var(--bg); font-size: 17px; font-weight: 800; cursor: pointer; box-shadow: 0 8px 24px var(--accent-glow); }
   .main-btn:active:not(:disabled) { transform: translateY(1px); box-shadow: 0 4px 12px var(--accent-glow); }
   .main-btn:disabled { opacity: 0.55; cursor: not-allowed; background: #334155; color: #64748b; box-shadow: none; }
-  .tab-row { display: flex; gap: 8px; margin-bottom: 14px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 4px; }
-  .tab { flex: 1; padding: 8px 6px; border-radius: 10px; border: none; background: transparent; color: var(--muted); font-size: 12px; font-weight: 700; cursor: pointer; }
-  .tab.active { background: var(--accent); color: var(--bg); }
-  .method-wrap { margin-bottom: 16px; }
-  .method-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; margin-bottom: 10px; cursor: pointer; transition: border 0.2s; }
-  .method-card.selected { border-color: var(--accent); background: rgba(56,189,248,0.05); }
-  .method-card .title { font-weight: 700; color: var(--text); margin-bottom: 4px; }
-  .method-card .price { font-size: 13px; color: var(--muted); }
-  .method-card .price .big { font-size: 18px; font-weight: 800; color: var(--text); }
-  .method-card .note { font-size: 11px; color: var(--muted); margin-top: 4px; }
   .modal {
     position: fixed; inset: 0; background: rgba(6,8,15,0.8); backdrop-filter: blur(10px); z-index: 100;
     display: none; align-items: center; justify-content: center; padding: 16px;
@@ -132,9 +136,6 @@
   .ticket .num { font-size: 17px; font-weight: 900; color: var(--accent); margin-bottom: 4px; }
   .ticket.active .num { color: var(--text); }
   .ticket .paid { font-size: 10px; margin-top: 2px; }
-  .usdt-banner {
-    background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.25); border-radius: 12px; padding: 12px; margin-bottom: 14px; font-size: 12px; color: var(--gold); text-align: center;
-  }
 </style>
 </head>
 <body>
@@ -154,7 +155,7 @@
   </div>
 
   <div class="usdt-banner">
-    💎 Оплата в USDT: 50 USDT за билет + 10 бонусных + 10 бесплатных при оплате 4+
+    💎 USDT: 1 билет = 50 USDT. За каждые 10 оплаченных билетов +10 бонусных в подарок.
   </div>
 
   <div class="user-bar">
@@ -172,14 +173,14 @@
 
   <div id="methodRub" class="method-wrap">
     <div class="method-card selected" id="card1">
-      <div class="title">Одна бутылка</div>
+      <div class="title">1 билет</div>
       <div class="price">5 000 <span class="big">₽</span></div>
       <div class="note">1 билет на розыгрыш</div>
     </div>
     <div class="method-card" id="card4">
-      <div class="title">Четыре бутылки</div>
+      <div class="title">4 билета (пакет)</div>
       <div class="price">10 000 <span class="big">₽</span></div>
-      <div class="note">4 билета (выгода 2 500 ₽)</div>
+      <div class="note">4 билета (экономия 10 000 ₽)</div>
     </div>
   </div>
 
@@ -187,12 +188,7 @@
     <div class="method-card selected" id="cardUsdt1">
       <div class="title">1 билет (USDT)</div>
       <div class="price">50 <span class="big">USDT</span></div>
-      <div class="note">+ 10 бонусных билетов</div>
-    </div>
-    <div class="method-card" id="cardUsdt4">
-      <div class="title">4 билета (USDT)</div>
-      <div class="price">200 <span class="big">USDT</span></div>
-      <div class="note">+ 10 бонусных + 10 бесплатных = 24 билета</div>
+      <div class="note">Бонус: +10 за каждые 10 билетов</div>
     </div>
   </div>
 
@@ -211,9 +207,10 @@
       <span class="label">Итого</span>
       <span class="amount" id="total">5 000 ₽</span>
     </div>
+    <div class="breakdown" id="breakdown"></div>
   </div>
 
-  <div class="hint">После оплаты билеты привяжутся к вашему аккаунту Telegram. Тестовый режим.</div>
+  <div class="hint">Тестовый режим. После оплаты билеты привяжутся к аккаунту Telegram.</div>
   <button class="main-btn" id="mainBtn">Оформить заказ</button>
 </div>
 
@@ -234,7 +231,7 @@
   <h2>Оплата подтверждена</h2>
   <p>Ваши билеты готовы</p>
   <div class="rows">
-    <div class="row"><span>Количество</span><span class="val" id="succCount">1</span></div>
+    <div class="row"><span>Всего билетов</span><span class="val" id="succCount">1</span></div>
     <div class="row"><span>Сумма</span><span class="val" id="succSum">5 000 ₽</span></div>
   </div>
   <button class="btn primary" id="btnShowTickets">Показать билеты</button>
@@ -254,6 +251,7 @@
   const countEl = document.getElementById('count');
   const totalEl = document.getElementById('total');
   const payPrice = document.getElementById('payPrice');
+  const breakdownEl = document.getElementById('breakdown');
   const btnMinus = document.getElementById('btnMinus');
   const btnPlus = document.getElementById('btnPlus');
   const mainBtn = document.getElementById('mainBtn');
@@ -271,16 +269,13 @@
   const methodRub = document.getElementById('methodRub');
   const methodUsdt = document.getElementById('methodUsdt');
 
+  // Цены из ТЗ
   const RUB_1 = 5000;
   const RUB_4 = 10000;
   const USDT_1 = 50;
-  const USDT_4 = 200;
-  const USDT_BONUS_PAID = 10;
-  const USDT_BONUS_FREE = 10;
 
   let mode = 'rub';
   let count = 1;
-  let usdtMode = false;
 
   const user = tg.initDataUnsafe.user;
   if (user) {
@@ -298,15 +293,43 @@
 
   function calc() {
     if (mode === 'rub') {
-      const price = count >= 4 ? RUB_4 : RUB_1;
-      const per = count >= 4 ? RUB_4 / 4 : RUB_1;
-      return { total: count * per, label: price === RUB_1 ? '5 000 ₽' : '10 000 ₽', currency: '₽' };
+      // Рубли: 1 шт = 5000, 4 шт = 10000, 5+ = 10000 + (n-4)*5000
+      let total, note;
+      if (count === 4) {
+        total = RUB_4;
+        note = 'Пакет 4 билета = 10 000 ₽';
+      } else if (count > 4) {
+        total = RUB_4 + (count - 4) * RUB_1;
+        note = 'Пакет 4 шт (10 000 ₽) + ' + (count - 4) + ' × 5 000 ₽';
+      } else {
+        total = count * RUB_1;
+        note = count + ' × 5 000 ₽';
+      }
+      return {
+        total: total,
+        label: formatMoney(total) + ' ₽',
+        currency: '₽',
+        tickets: count,
+        bonus: 0,
+        note: note
+      };
     } else {
-      const base = count >= 4 ? USDT_4 : USDT_1;
-      const paidBonus = usdtMode ? USDT_BONUS_PAID : 0;
-      const freeBonus = count >= 4 ? USDT_BONUS_FREE : 0;
-      const totalTickets = count + paidBonus + freeBonus;
-      return { total: count * (base / count), label: count * base + ' USDT', currency: 'USDT', tickets: totalTickets, bonus: paidBonus + freeBonus };
+      // USDT: 1 билет = 50 USDT. За каждые 10 оплаченных +10 бонусных.
+      const paidTickets = count;
+      const bonusTickets = Math.floor(count / 10) * 10;
+      const totalTickets = paidTickets + bonusTickets;
+      const totalUsdt = paidTickets * USDT_1;
+      let note = paidTickets + ' × 50 USDT = ' + totalUsdt + ' USDT';
+      if (bonusTickets > 0) note += ' + ' + bonusTickets + ' бонусных билетов';
+      return {
+        total: totalUsdt,
+        label: totalUsdt + ' USDT',
+        currency: 'USDT',
+        tickets: totalTickets,
+        paid: paidTickets,
+        bonus: bonusTickets,
+        note: note
+      };
     }
   }
 
@@ -327,16 +350,31 @@
     countEl.textContent = count;
     totalEl.textContent = c.label;
     payPrice.textContent = c.label;
+    breakdownEl.textContent = c.note;
     mainBtn.textContent = 'Оформить заказ на ' + c.label;
     tg.MainButton.setText(mainBtn.textContent);
-    renderTickets(c.tickets, count);
+    renderTickets(c.tickets, c.paid || count);
   }
 
   btnMinus.addEventListener('click', () => { if (count > 1) { count--; updateTotal(); } });
   btnPlus.addEventListener('click', () => { count++; updateTotal(); });
 
-  tabRub.addEventListener('click', () => { mode = 'rub'; tabRub.classList.add('active'); tabUsdt.classList.remove('active'); methodRub.style.display = 'block'; methodUsdt.style.display = 'none'; updateTotal(); });
-  tabUsdt.addEventListener('click', () => { mode = 'usdt'; tabUsdt.classList.add('active'); tabRub.classList.remove('active'); methodRub.style.display = 'none'; methodUsdt.style.display = 'block'; updateTotal(); });
+  tabRub.addEventListener('click', () => {
+    mode = 'rub';
+    tabRub.classList.add('active');
+    tabUsdt.classList.remove('active');
+    methodRub.style.display = 'block';
+    methodUsdt.style.display = 'none';
+    updateTotal();
+  });
+  tabUsdt.addEventListener('click', () => {
+    mode = 'usdt';
+    tabUsdt.classList.add('active');
+    tabRub.classList.remove('active');
+    methodRub.style.display = 'none';
+    methodUsdt.style.display = 'block';
+    updateTotal();
+  });
 
   mainBtn.addEventListener('click', () => { modal.classList.add('open'); });
   closeModal.addEventListener('click', () => { modal.classList.remove('open'); });
@@ -348,14 +386,16 @@
       quantity: count,
       amount: c.total,
       currency: mode,
+      tickets: c.tickets,
+      bonus: c.bonus || 0,
       user: user ? { id: user.id, first_name: user.first_name, username: user.username } : null,
       time: Date.now(),
       test: true
     };
     tg.sendData(JSON.stringify(order));
-    tg.showAlert('Тестовый заказ отправлен.');
+    tg.showAlert('Тестовый заказ отправлен боту.');
     modal.classList.remove('open');
-    succCount.textContent = c.tickets || count;
+    succCount.textContent = c.tickets;
     succSum.textContent = c.label;
     success.classList.add('open');
     mainBtn.textContent = 'Заказ оформлен';
@@ -363,14 +403,10 @@
     tg.MainButton.setText(mainBtn.textContent);
   });
 
-  btnShowTickets.addEventListener('click', () => { tg.showAlert('Билеты сохранены в вашем профиле.'); });
+  btnShowTickets.addEventListener('click', () => { tg.showAlert('Билеты сохранены в профиле.'); });
   btnShare.addEventListener('click', () => {
     tg.switchInlineQuery('Прими участие в розыгрыше Ferrari F8! t.me/Chebotarev_ticket_bot/Chebotarev');
   });
-
-  closeSuccess.addEventListener = null;
-  const cs = document.createElement('button');
-  // success close handled below
 
   tg.MainButton.setText(mainBtn.textContent);
   tg.MainButton.show();
