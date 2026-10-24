@@ -5,94 +5,272 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Розыгрыш авто — билеты</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #0f172a; color: #f8fafc; min-height: 100vh; padding-bottom: 80px; }
+  :root {
+    --accent: #38bdf8;
+    --accent-hover: #7dd3fc;
+    --bg: #0b0f19;
+    --card: #131a2b;
+    --border: #1e293b;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --green: #10b981;
+    --green-hover: #34d399;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 90px;
+    overflow-x: hidden;
+  }
   .container { max-width: 500px; margin: 0 auto; padding: 16px; }
-  header { text-align: center; margin-bottom: 24px; }
-  header h1 { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: #38bdf8; }
-  header p { font-size: 14px; color: #94a3b8; }
-  .car-card { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid #334155; border-radius: 16px; padding: 20px; margin-bottom: 24px; text-align: center; }
-  .car-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin-bottom: 12px; background: #334155; }
-  .car-card h2 { font-size: 18px; margin-bottom: 6px; }
-  .car-card p { font-size: 14px; color: #cbd5e1; }
-  .price { font-size: 24px; font-weight: 800; margin-top: 8px; color: #38bdf8; }
-  .controls { display: flex; align-items: center; justify-content: space-between; background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 16px; margin-bottom: 24px; }
-  .controls label { font-size: 14px; color: #94a3b8; }
-  .count-box { display: flex; align-items: center; gap: 8px; }
-  .btn-count { width: 36px; height: 36px; border-radius: 8px; border: 1px solid #38bdf8; background: transparent; color: #38bdf8; font-size: 18px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-  .btn-count:active { background: #38bdf8; color: #0f172a; }
-  .count { font-size: 18px; font-weight: 700; min-width: 24px; text-align: center; }
-  .total { font-size: 16px; color: #cbd5e1; }
-  .total .amount { font-size: 20px; font-weight: 800; color: #f8fafc; }
-  .user-info { font-size: 13px; color: #94a3b8; margin-bottom: 16px; text-align: center; }
-  .main-btn { width: 100%; padding: 16px; border-radius: 12px; border: none; background: #38bdf8; color: #0f172a; font-size: 16px; font-weight: 700; cursor: pointer; }
-  .main-btn:disabled { opacity: 0.5; cursor: not-allowed; background: #475569; }
-  .main-btn:active:not(:disabled) { background: #7dd3fc; }
-  .modal { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); z-index: 50; display: none; align-items: center; justify-content: center; padding: 16px; }
+  .shine {
+    position: fixed;
+    top: -20%;
+    left: -20%;
+    width: 60vw;
+    height: 60vw;
+    background: radial-gradient(circle, rgba(56,189,248,0.12) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  header { text-align: center; margin-bottom: 20px; position: relative; z-index: 1; }
+  header h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 6px; background: linear-gradient(to right, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  header p { font-size: 13px; color: var(--muted); }
+  .car-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  }
+  .car-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 14px;
+    margin-bottom: 12px;
+    background: #1e293b;
+    display: block;
+  }
+  .car-card h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .car-card p { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+  .price-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 12px;
+    background: rgba(56,189,248,0.1);
+    border: 1px solid rgba(56,189,248,0.25);
+    color: var(--accent);
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .user-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 20px;
+    font-size: 13px;
+  }
+  .user-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #818cf8);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 13px; color: #000; flex-shrink: 0;
+  }
+  .user-info { flex: 1; margin-left: 10px; }
+  .user-name { font-weight: 700; color: var(--text); }
+  .user-handle { font-size: 12px; color: var(--muted); }
+  .controls {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 18px 16px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .controls-label { font-size: 13px; color: var(--muted); font-weight: 600; }
+  .row { display: flex; align-items: center; justify-content: space-between; }
+  .btn-count {
+    width: 40px; height: 40px;
+    border-radius: 12px;
+    border: 1px solid var(--accent);
+    background: rgba(56,189,248,0.08);
+    color: var(--accent);
+    font-size: 20px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.1s;
+  }
+  .btn-count:active { transform: scale(0.92); background: var(--accent); color: var(--bg); }
+  .count { font-size: 22px; font-weight: 800; min-width: 30px; text-align: center; color: var(--text); }
+  .total {
+    display: flex; align-items: baseline; justify-content: space-between;
+    font-size: 14px; color: var(--muted);
+  }
+  .total .label { color: var(--muted); }
+  .total .amount { font-size: 24px; font-weight: 800; color: var(--text); }
+  .hint {
+    font-size: 12px; color: var(--muted); text-align: center;
+    margin-bottom: 6px; line-height: 1.4;
+  }
+  .main-btn {
+    width: 100%; padding: 16px; border-radius: 16px; border: none;
+    background: var(--accent); color: var(--bg); font-size: 17px;
+    font-weight: 800; cursor: pointer; box-shadow: 0 8px 24px rgba(56,189,248,0.35);
+  }
+  .main-btn:active:not(:disabled) { transform: translateY(1px); box-shadow: 0 4px 12px rgba(56,189,248,0.25); }
+  .main-btn:disabled { opacity: 0.55; cursor: not-allowed; background: #334155; color: #64748b; box-shadow: none; }
+  .modal {
+    position: fixed; inset: 0; background: rgba(11,15,25,0.75);
+    backdrop-filter: blur(10px); z-index: 100; display: none;
+    align-items: center; justify-content: center; padding: 16px;
+  }
   .modal.open { display: flex; }
-  .modal-card { background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 24px; width: 100%; max-width: 340px; }
-  .modal-card h3 { font-size: 18px; margin-bottom: 16px; text-align: center; }
-  .pay-option { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #334155; cursor: pointer; }
+  .modal-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 20px; padding: 24px 20px; width: 100%; max-width: 340px;
+    position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  }
+  .close-modal {
+    position: absolute; top: 14px; right: 16px;
+    font-size: 26px; color: var(--muted); cursor: pointer; line-height: 1;
+  }
+  .modal-card h3 { font-size: 18px; font-weight: 800; margin-bottom: 18px; text-align: center; }
+  .pay-option {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 0; border-bottom: 1px solid var(--border); cursor: pointer;
+  }
   .pay-option:last-child { border-bottom: none; }
-  .pay-option .label { font-size: 14px; color: #f8fafc; }
-  .pay-option .price { font-size: 14px; font-weight: 700; color: #38bdf8; }
-  .pay-option input { accent-color: #38bdf8; }
-  .pay-btn { width: 100%; padding: 14px; border-radius: 12px; border: none; background: #10b981; color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 20px; }
-  .pay-btn:active { background: #34d399; }
-  .close-modal { position: absolute; top: 12px; right: 16px; font-size: 24px; color: #64748b; cursor: pointer; line-height: 1; }
-  .hint { font-size: 12px; color: #64748b; text-align: center; margin-top: 12px; }
-  .success { position: fixed; inset: 0; background: #0f172a; z-index: 60; display: none; align-items: center; justify-content: center; flex-direction: column; padding: 24px; text-align: center; }
+  .pay-option .label { font-size: 14px; color: var(--text); font-weight: 600; }
+  .pay-option .price { font-size: 14px; font-weight: 800; color: var(--accent); }
+  .pay-option input { accent-color: var(--accent); width: 18px; height: 18px; }
+  .pay-btn {
+    width: 100%; padding: 15px; border-radius: 14px; border: none;
+    background: var(--green); color: #fff; font-size: 16px; font-weight: 800;
+    cursor: pointer; margin-top: 22px; box-shadow: 0 8px 20px rgba(16,185,129,0.35);
+  }
+  .pay-btn:active { transform: translateY(1px); background: var(--green-hover); }
+  .success {
+    position: fixed; inset: 0; background: var(--bg); z-index: 110;
+    display: none; align-items: center; justify-content: center;
+    flex-direction: column; padding: 24px; text-align: center;
+  }
   .success.open { display: flex; }
-  .success h2 { color: #10b981; font-size: 20px; margin-bottom: 8px; }
-  .success p { color: #94a3b8; font-size: 14px; margin-bottom: 24px; }
-  .success .close { padding: 12px 24px; border-radius: 8px; border: 1px solid #334155; background: transparent; color: #f8fafc; cursor: pointer; }
+  .success .check {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: rgba(16,185,129,0.15); border: 2px solid var(--green);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 30px; color: var(--green); margin-bottom: 16px;
+    animation: pop 0.5s cubic-bezier(0.175,0.885,0.32,1.275);
+  }
+  @keyframes pop { 0%{transform:scale(0)} 70%{transform:scale(1.15)} 100%{transform:scale(1)} }
+  .success h2 { font-size: 20px; font-weight: 800; margin-bottom: 8px; color: var(--text); }
+  .success p { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+  .success .close {
+    padding: 12px 26px; border-radius: 12px; border: 1px solid var(--border);
+    background: transparent; color: var(--text); font-weight: 700; cursor: pointer;
+  }
+  .success .close:active { background: #1e293b; }
+  /* Ticket preview strip */
+  .tickets-wrap { margin-top: 14px; }
+  .ticket-strip { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; }
+  .ticket-strip::-webkit-scrollbar { display: none; }
+  .ticket {
+    width: 78px; height: 110px; border-radius: 14px; border: 2px dashed rgba(56,189,248,0.35);
+    background: rgba(255,255,255,0.03); flex-shrink: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: var(--muted); font-size: 11px; font-weight: 700;
+    position: relative;
+  }
+  .ticket.active {
+    border-style: solid; border-color: var(--accent);
+    color: var(--text); background: rgba(56,189,248,0.08);
+  }
+  .ticket .num { font-size: 16px; font-weight: 900; color: var(--accent); margin-bottom: 4px; }
+  .ticket.active .num { color: var(--text); }
+  .tickets-label { font-size: 12px; color: var(--muted); margin-bottom: 8px; font-weight: 600; }
 </style>
 </head>
 <body>
+<div class="shine"></div>
 <div class="container">
   <header>
-    <h1>Розыгрыш автомобиля</h1>
-    <p>Tesla Model 3 — розыгрыш 1 декабря 2026</p>
+    <h1>Розыгрыш Tesla Model 3</h1>
+    <p>Осталось розыгрышей: 1 декабря 2026</p>
   </header>
+
   <div class="car-card">
-    <img src="https://images.unsplash.com/photo-1560958089-b8a293937227?w=600&auto=format&fit=crop&q=80&fm=jpg" alt="Car">
+    <img src="https://images.unsplash.com/photo-1560958089-b8a293937227?w=800&auto=format&fit=crop&q=80&fm=jpg" alt="Tesla Model 3">
     <h2>Tesla Model 3</h2>
-    <p>Электрический седан, 2026 год</p>
-    <div class="price">1 билет = 150 руб.</div>
+    <p>Электрический седан 2026</p>
+    <div class="price-tag">1 билет = 150 ₽</div>
   </div>
-  <div class="user-info" id="userInfo">Загрузка профиля...</div>
+
+  <div class="user-bar">
+    <div class="user-avatar" id="userAvatar">?</div>
+    <div class="user-info">
+      <div class="user-name" id="userName">Загрузка...</div>
+      <div class="user-handle" id="userHandle"></div>
+    </div>
+  </div>
+
   <div class="controls">
-    <div><label>Количество билетов</label></div>
-    <div class="count-box">
+    <div class="controls-label">Количество билетов</div>
+    <div class="row">
       <button class="btn-count" id="btnMinus">−</button>
       <span class="count" id="count">1</span>
       <button class="btn-count" id="btnPlus">+</button>
     </div>
+    <div class="tickets-wrap">
+      <div class="tickets-label">Ваши билеты</div>
+      <div class="ticket-strip" id="ticketStrip"></div>
+    </div>
+    <div class="total">
+      <span class="label">Итого</span>
+      <span class="amount" id="total">150 ₽</span>
+    </div>
   </div>
-  <div class="total">Итого: <span class="amount" id="total">150</span> руб.</div>
+
+  <div class="hint">После оплаты билеты привяжутся к вашему аккаунту Telegram</div>
   <button class="main-btn" id="mainBtn">Оформить заказ</button>
-  <div class="hint">После оплаты билет привяжется к вашему аккаунту Telegram</div>
 </div>
 
 <div class="modal" id="modal">
   <div class="close-modal" id="closeModal">×</div>
   <div class="modal-card">
-    <h3>Способ оплаты</h3>
+    <h3>Оплата заказа</h3>
     <div class="pay-option">
-      <label class="label">Telegram Payments (через бота)</label>
-      <div class="price" id="payPrice">150 руб.</div>
+      <label class="label">Telegram Payments</label>
+      <div class="price" id="payPrice">150 ₽</div>
     </div>
     <div class="pay-option">
-      <label class="label">Банковская карта (внешняя ссылка)</label>
-      <div class="price">150 руб.</div>
+      <label class="label">Банковская карта</label>
+      <div class="price">150 ₽</div>
     </div>
     <button class="pay-btn" id="payBtn">Оплатить</button>
   </div>
 </div>
 
 <div class="success" id="success">
+  <div class="check">✓</div>
   <h2>Заказ оформлен</h2>
-  <p>Билеты сохранены. Ожидайте розыгрыша.</p>
+  <p>Билеты сохранены. Ждите розыгрыша.</p>
   <button class="close" id="closeSuccess">Закрыть</button>
 </div>
 
@@ -101,36 +279,57 @@
   const tg = window.Telegram.WebApp;
   tg.ready();
   tg.expand();
+  tg.setHeaderColor(tg.themeParams.bg_color || '#0b0f19');
 
-  const userInfo = document.getElementById('userInfo');
+  const userAvatar = document.getElementById('userAvatar');
+  const userName = document.getElementById('userName');
+  const userHandle = document.getElementById('userHandle');
   const countEl = document.getElementById('count');
   const totalEl = document.getElementById('total');
+  const payPrice = document.getElementById('payPrice');
   const btnMinus = document.getElementById('btnMinus');
   const btnPlus = document.getElementById('btnPlus');
   const mainBtn = document.getElementById('mainBtn');
   const modal = document.getElementById('modal');
   const closeModal = document.getElementById('closeModal');
   const payBtn = document.getElementById('payBtn');
-  const payPrice = document.getElementById('payPrice');
   const success = document.getElementById('success');
   const closeSuccess = document.getElementById('closeSuccess');
+  const ticketStrip = document.getElementById('ticketStrip');
 
   const PRICE = 150;
   let count = 1;
 
   const user = tg.initDataUnsafe.user;
   if (user) {
-    userInfo.textContent = `${user.first_name} ${user.last_name || ''} (@${user.username || 'без ника'})`;
+    const initials = (user.first_name ? user.first_name[0] : '?') + (user.last_name ? user.last_name[0] : '');
+    userAvatar.textContent = initials || '?';
+    userName.textContent = user.first_name + (user.last_name ? ' ' + user.last_name : '');
+    userHandle.textContent = user.username ? '@' + user.username : '';
   } else {
-    userInfo.textContent = 'Пользователь не определён';
+    userAvatar.textContent = '?';
+    userName.textContent = 'Гость';
+    userHandle.textContent = '';
+  }
+
+  function renderTickets() {
+    ticketStrip.innerHTML = '';
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('div');
+      el.className = 'ticket' + (i < count ? ' active' : '');
+      el.innerHTML = '<div class="num">#' + (i + 1) + '</div>Билет';
+      ticketStrip.appendChild(el);
+    }
   }
 
   function updateTotal() {
     const total = count * PRICE;
     countEl.textContent = count;
-    totalEl.textContent = total;
-    payPrice.textContent = total + ' руб.';
-    mainBtn.textContent = `Оформить заказ на ${total} руб`;
+    totalEl.textContent = total + ' ₽';
+    payPrice.textContent = total + ' ₽';
+    mainBtn.textContent = 'Оформить заказ на ' + total + ' ₽';
+    renderTickets();
+    tg.MainButton.setText(mainBtn.textContent);
   }
 
   btnMinus.addEventListener('click', () => { if (count > 1) { count--; updateTotal(); } });
@@ -149,11 +348,12 @@
       time: Date.now()
     };
     tg.sendData(JSON.stringify(order));
-    tg.showAlert('Заказ отправлен боту. Ожидайте счёт для оплаты.');
+    tg.showAlert('Заказ отправлен боту.');
     modal.classList.remove('open');
     success.classList.add('open');
     mainBtn.textContent = 'Заказ оформлен';
     mainBtn.disabled = true;
+    tg.MainButton.setText(mainBtn.textContent);
   });
 
   closeSuccess.addEventListener('click', () => { success.classList.remove('open'); });
