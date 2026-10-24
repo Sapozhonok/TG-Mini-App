@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Розыгрыш авто — билеты</title>
+<title>Розыгрыш Ferrari F8 — билеты</title>
 <style>
   :root {
     --accent: #38bdf8;
-    --accent-hover: #7dd3fc;
-    --bg: #0b0f19;
-    --card: #131a2b;
+    --accent-glow: rgba(56,189,248,0.35);
+    --gold: #fbbf24;
+    --bg: #06080f;
+    --card: #0f1526;
     --border: #1e293b;
     --text: #f1f5f9;
     --muted: #94a3b8;
@@ -23,203 +24,137 @@
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
-    padding-bottom: 90px;
+    padding-bottom: 100px;
     overflow-x: hidden;
   }
-  .container { max-width: 500px; margin: 0 auto; padding: 16px; }
+  .container { max-width: 500px; margin: 0 auto; padding: 16px; position: relative; z-index: 1; }
   .shine {
-    position: fixed;
-    top: -20%;
-    left: -20%;
-    width: 60vw;
-    height: 60vw;
-    background: radial-gradient(circle, rgba(56,189,248,0.12) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
+    position: fixed; top: -10%; left: -10%; width: 70vw; height: 70vw;
+    background: radial-gradient(circle, rgba(56,189,248,0.08) 0%, transparent 50%);
+    pointer-events: none; z-index: 0;
   }
-  header { text-align: center; margin-bottom: 20px; position: relative; z-index: 1; }
+  header { text-align: center; margin-bottom: 16px; }
   header h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 6px; background: linear-gradient(to right, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
   header p { font-size: 13px; color: var(--muted); }
+  .badge { display: inline-block; margin-bottom: 12px; padding: 6px 12px; border-radius: 999px; background: rgba(251,191,36,0.15); border: 1px solid rgba(251,191,36,0.35); color: var(--gold); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
   .car-card {
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 20px;
+    border-radius: 22px;
     padding: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
   }
   .car-card img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 14px;
-    margin-bottom: 12px;
-    background: #1e293b;
-    display: block;
+    width: 100%; height: 200px; object-fit: cover; border-radius: 16px;
+    margin-bottom: 12px; background: #1e293b; display: block;
   }
-  .car-card h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .car-card h2 { font-size: 19px; font-weight: 800; margin-bottom: 4px; }
   .car-card p { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
   .price-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 14px;
-    border-radius: 12px;
-    background: rgba(56,189,248,0.1);
-    border: 1px solid rgba(56,189,248,0.25);
-    color: var(--accent);
-    font-size: 15px;
-    font-weight: 700;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 16px; border-radius: 14px;
+    background: rgba(56,189,248,0.1); border: 1px solid rgba(56,189,248,0.25);
+    color: var(--accent); font-size: 15px; font-weight: 800;
   }
   .user-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 16px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    margin-bottom: 20px;
-    font-size: 13px;
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px; background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; margin-bottom: 16px; font-size: 13px;
   }
-  .user-avatar {
-    width: 32px; height: 32px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent), #818cf8);
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 800; font-size: 13px; color: #000; flex-shrink: 0;
-  }
-  .user-info { flex: 1; margin-left: 10px; }
+  .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #818cf8); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; color: #000; flex-shrink: 0; }
+  .user-info { flex: 1; }
   .user-name { font-weight: 700; color: var(--text); }
-  .user-handle { font-size: 12px; color: var(--muted); }
+  .user-handle { font-size: 11px; color: var(--muted); }
   .controls {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 18px 16px;
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 20px; padding: 18px 16px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 14px;
   }
-  .controls-label { font-size: 13px; color: var(--muted); font-weight: 600; }
+  .controls-label { font-size: 13px; color: var(--muted); font-weight: 700; }
   .row { display: flex; align-items: center; justify-content: space-between; }
-  .btn-count {
-    width: 40px; height: 40px;
-    border-radius: 12px;
-    border: 1px solid var(--accent);
-    background: rgba(56,189,248,0.08);
-    color: var(--accent);
-    font-size: 20px;
-    font-weight: 800;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: transform 0.1s;
-  }
+  .btn-count { width: 42px; height: 42px; border-radius: 14px; border: 1px solid var(--accent); background: rgba(56,189,248,0.08); color: var(--accent); font-size: 20px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.1s; }
   .btn-count:active { transform: scale(0.92); background: var(--accent); color: var(--bg); }
-  .count { font-size: 22px; font-weight: 800; min-width: 30px; text-align: center; color: var(--text); }
-  .total {
-    display: flex; align-items: baseline; justify-content: space-between;
-    font-size: 14px; color: var(--muted);
-  }
-  .total .label { color: var(--muted); }
-  .total .amount { font-size: 24px; font-weight: 800; color: var(--text); }
-  .hint {
-    font-size: 12px; color: var(--muted); text-align: center;
-    margin-bottom: 6px; line-height: 1.4;
-  }
-  .main-btn {
-    width: 100%; padding: 16px; border-radius: 16px; border: none;
-    background: var(--accent); color: var(--bg); font-size: 17px;
-    font-weight: 800; cursor: pointer; box-shadow: 0 8px 24px rgba(56,189,248,0.35);
-  }
-  .main-btn:active:not(:disabled) { transform: translateY(1px); box-shadow: 0 4px 12px rgba(56,189,248,0.25); }
+  .count { font-size: 24px; font-weight: 800; min-width: 32px; text-align: center; color: var(--text); }
+  .total { display: flex; align-items: baseline; justify-content: space-between; font-size: 14px; color: var(--muted); }
+  .total .amount { font-size: 26px; font-weight: 800; color: var(--text); }
+  .hint { font-size: 12px; color: var(--muted); text-align: center; margin-bottom: 6px; line-height: 1.4; }
+  .main-btn { width: 100%; padding: 16px; border-radius: 16px; border: none; background: var(--accent); color: var(--bg); font-size: 17px; font-weight: 800; cursor: pointer; box-shadow: 0 8px 24px var(--accent-glow); }
+  .main-btn:active:not(:disabled) { transform: translateY(1px); box-shadow: 0 4px 12px var(--accent-glow); }
   .main-btn:disabled { opacity: 0.55; cursor: not-allowed; background: #334155; color: #64748b; box-shadow: none; }
+  .tab-row { display: flex; gap: 8px; margin-bottom: 14px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 4px; }
+  .tab { flex: 1; padding: 8px 6px; border-radius: 10px; border: none; background: transparent; color: var(--muted); font-size: 12px; font-weight: 700; cursor: pointer; }
+  .tab.active { background: var(--accent); color: var(--bg); }
+  .method-wrap { margin-bottom: 16px; }
+  .method-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; margin-bottom: 10px; cursor: pointer; transition: border 0.2s; }
+  .method-card.selected { border-color: var(--accent); background: rgba(56,189,248,0.05); }
+  .method-card .title { font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .method-card .price { font-size: 13px; color: var(--muted); }
+  .method-card .price .big { font-size: 18px; font-weight: 800; color: var(--text); }
+  .method-card .note { font-size: 11px; color: var(--muted); margin-top: 4px; }
   .modal {
-    position: fixed; inset: 0; background: rgba(11,15,25,0.75);
-    backdrop-filter: blur(10px); z-index: 100; display: none;
-    align-items: center; justify-content: center; padding: 16px;
+    position: fixed; inset: 0; background: rgba(6,8,15,0.8); backdrop-filter: blur(10px); z-index: 100;
+    display: none; align-items: center; justify-content: center; padding: 16px;
   }
   .modal.open { display: flex; }
-  .modal-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 20px; padding: 24px 20px; width: 100%; max-width: 340px;
-    position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-  }
-  .close-modal {
-    position: absolute; top: 14px; right: 16px;
-    font-size: 26px; color: var(--muted); cursor: pointer; line-height: 1;
-  }
+  .modal-card { background: var(--card); border: 1px solid var(--border); border-radius: 22px; padding: 24px 20px; width: 100%; max-width: 350px; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
+  .close-modal { position: absolute; top: 16px; right: 18px; font-size: 28px; color: var(--muted); cursor: pointer; line-height: 1; }
   .modal-card h3 { font-size: 18px; font-weight: 800; margin-bottom: 18px; text-align: center; }
-  .pay-option {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 0; border-bottom: 1px solid var(--border); cursor: pointer;
-  }
+  .pay-option { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
   .pay-option:last-child { border-bottom: none; }
   .pay-option .label { font-size: 14px; color: var(--text); font-weight: 600; }
   .pay-option .price { font-size: 14px; font-weight: 800; color: var(--accent); }
   .pay-option input { accent-color: var(--accent); width: 18px; height: 18px; }
-  .pay-btn {
-    width: 100%; padding: 15px; border-radius: 14px; border: none;
-    background: var(--green); color: #fff; font-size: 16px; font-weight: 800;
-    cursor: pointer; margin-top: 22px; box-shadow: 0 8px 20px rgba(16,185,129,0.35);
-  }
+  .pay-btn { width: 100%; padding: 15px; border-radius: 14px; border: none; background: var(--green); color: #fff; font-size: 16px; font-weight: 800; cursor: pointer; margin-top: 22px; box-shadow: 0 8px 20px rgba(16,185,129,0.35); }
   .pay-btn:active { transform: translateY(1px); background: var(--green-hover); }
   .success {
     position: fixed; inset: 0; background: var(--bg); z-index: 110;
-    display: none; align-items: center; justify-content: center;
-    flex-direction: column; padding: 24px; text-align: center;
+    display: none; align-items: center; justify-content: center; flex-direction: column; padding: 24px; text-align: center;
   }
   .success.open { display: flex; }
-  .success .check {
-    width: 64px; height: 64px; border-radius: 50%;
-    background: rgba(16,185,129,0.15); border: 2px solid var(--green);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 30px; color: var(--green); margin-bottom: 16px;
-    animation: pop 0.5s cubic-bezier(0.175,0.885,0.32,1.275);
-  }
+  .success .check { width: 64px; height: 64px; border-radius: 50%; background: rgba(16,185,129,0.15); border: 2px solid var(--green); display: flex; align-items: center; justify-content: center; font-size: 30px; color: var(--green); margin-bottom: 16px; animation: pop 0.5s cubic-bezier(0.175,0.885,0.32,1.275); }
   @keyframes pop { 0%{transform:scale(0)} 70%{transform:scale(1.15)} 100%{transform:scale(1)} }
   .success h2 { font-size: 20px; font-weight: 800; margin-bottom: 8px; color: var(--text); }
-  .success p { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
-  .success .close {
-    padding: 12px 26px; border-radius: 12px; border: 1px solid var(--border);
-    background: transparent; color: var(--text); font-weight: 700; cursor: pointer;
-  }
-  .success .close:active { background: #1e293b; }
-  /* Ticket preview strip */
-  .tickets-wrap { margin-top: 14px; }
+  .success p { font-size: 14px; color: var(--muted); margin-bottom: 16px; }
+  .success .rows { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+  .success .row { display: flex; justify-content: space-between; font-size: 14px; color: var(--muted); }
+  .success .row .val { color: var(--text); font-weight: 700; }
+  .success .btn { padding: 12px 26px; border-radius: 12px; border: 1px solid var(--border); background: transparent; color: var(--text); font-weight: 700; cursor: pointer; }
+  .success .btn:active { background: #1e293b; }
+  .success .btn.primary { background: var(--accent); color: var(--bg); border: none; }
+  .tickets-wrap { margin-top: 10px; }
+  .tickets-label { font-size: 12px; color: var(--muted); margin-bottom: 8px; font-weight: 700; }
   .ticket-strip { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; }
   .ticket-strip::-webkit-scrollbar { display: none; }
-  .ticket {
-    width: 78px; height: 110px; border-radius: 14px; border: 2px dashed rgba(56,189,248,0.35);
-    background: rgba(255,255,255,0.03); flex-shrink: 0;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    color: var(--muted); font-size: 11px; font-weight: 700;
-    position: relative;
-  }
-  .ticket.active {
-    border-style: solid; border-color: var(--accent);
-    color: var(--text); background: rgba(56,189,248,0.08);
-  }
-  .ticket .num { font-size: 16px; font-weight: 900; color: var(--accent); margin-bottom: 4px; }
+  .ticket { width: 82px; height: 115px; border-radius: 14px; border: 2px dashed rgba(56,189,248,0.35); background: rgba(255,255,255,0.03); flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--muted); font-size: 10px; font-weight: 800; position: relative; }
+  .ticket.active { border-style: solid; border-color: var(--accent); color: var(--text); background: rgba(56,189,248,0.08); }
+  .ticket .num { font-size: 17px; font-weight: 900; color: var(--accent); margin-bottom: 4px; }
   .ticket.active .num { color: var(--text); }
-  .tickets-label { font-size: 12px; color: var(--muted); margin-bottom: 8px; font-weight: 600; }
+  .ticket .paid { font-size: 10px; margin-top: 2px; }
+  .usdt-banner {
+    background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.25); border-radius: 12px; padding: 12px; margin-bottom: 14px; font-size: 12px; color: var(--gold); text-align: center;
+  }
 </style>
 </head>
 <body>
 <div class="shine"></div>
 <div class="container">
   <header>
-    <h1>Розыгрыш Tesla Model 3</h1>
-    <p>Осталось розыгрышей: 1 декабря 2026</p>
+    <div class="badge">Премиальный розыгрыш</div>
+    <h1>Ferrari F8 Tributo</h1>
+    <p>Один билет — шанс стать владельцем суперкара</p>
   </header>
 
   <div class="car-card">
-    <img src="https://images.unsplash.com/photo-1560958089-b8a293937227?w=800&auto=format&fit=crop&q=80&fm=jpg" alt="Tesla Model 3">
-    <h2>Tesla Model 3</h2>
-    <p>Электрический седан 2026</p>
-    <div class="price-tag">1 билет = 150 ₽</div>
+    <img src="https://images.unsplash.com/photo-1618440406721-75c9a829c2e5?w=900&auto=format&fit=crop&q=80&fm=jpg" alt="Ferrari F8">
+    <h2>Ferrari F8 Tributo</h2>
+    <p>2024 год • 720 л.с. • 340 км/ч</p>
+    <div class="price-tag">От 5 000 ₽ за билет</div>
+  </div>
+
+  <div class="usdt-banner">
+    💎 Оплата в USDT: 50 USDT за билет + 10 бонусных + 10 бесплатных при оплате 4+
   </div>
 
   <div class="user-bar">
@@ -227,6 +162,37 @@
     <div class="user-info">
       <div class="user-name" id="userName">Загрузка...</div>
       <div class="user-handle" id="userHandle"></div>
+    </div>
+  </div>
+
+  <div class="tab-row">
+    <button class="tab active" id="tabRub">₽ Рубль</button>
+    <button class="tab" id="tabUsdt">₿ USDT</button>
+  </div>
+
+  <div id="methodRub" class="method-wrap">
+    <div class="method-card selected" id="card1">
+      <div class="title">Одна бутылка</div>
+      <div class="price">5 000 <span class="big">₽</span></div>
+      <div class="note">1 билет на розыгрыш</div>
+    </div>
+    <div class="method-card" id="card4">
+      <div class="title">Четыре бутылки</div>
+      <div class="price">10 000 <span class="big">₽</span></div>
+      <div class="note">4 билета (выгода 2 500 ₽)</div>
+    </div>
+  </div>
+
+  <div id="methodUsdt" class="method-wrap" style="display:none">
+    <div class="method-card selected" id="cardUsdt1">
+      <div class="title">1 билет (USDT)</div>
+      <div class="price">50 <span class="big">USDT</span></div>
+      <div class="note">+ 10 бонусных билетов</div>
+    </div>
+    <div class="method-card" id="cardUsdt4">
+      <div class="title">4 билета (USDT)</div>
+      <div class="price">200 <span class="big">USDT</span></div>
+      <div class="note">+ 10 бонусных + 10 бесплатных = 24 билета</div>
     </div>
   </div>
 
@@ -243,11 +209,11 @@
     </div>
     <div class="total">
       <span class="label">Итого</span>
-      <span class="amount" id="total">150 ₽</span>
+      <span class="amount" id="total">5 000 ₽</span>
     </div>
   </div>
 
-  <div class="hint">После оплаты билеты привяжутся к вашему аккаунту Telegram</div>
+  <div class="hint">После оплаты билеты привяжутся к вашему аккаунту Telegram. Тестовый режим.</div>
   <button class="main-btn" id="mainBtn">Оформить заказ</button>
 </div>
 
@@ -256,22 +222,23 @@
   <div class="modal-card">
     <h3>Оплата заказа</h3>
     <div class="pay-option">
-      <label class="label">Telegram Payments</label>
-      <div class="price" id="payPrice">150 ₽</div>
+      <label class="label">Тестовая оплата (мок)</label>
+      <div class="price" id="payPrice">5 000 ₽</div>
     </div>
-    <div class="pay-option">
-      <label class="label">Банковская карта</label>
-      <div class="price">150 ₽</div>
-    </div>
-    <button class="pay-btn" id="payBtn">Оплатить</button>
+    <button class="pay-btn" id="payBtn">Оплатить (тест)</button>
   </div>
 </div>
 
 <div class="success" id="success">
   <div class="check">✓</div>
-  <h2>Заказ оформлен</h2>
-  <p>Билеты сохранены. Ждите розыгрыша.</p>
-  <button class="close" id="closeSuccess">Закрыть</button>
+  <h2>Оплата подтверждена</h2>
+  <p>Ваши билеты готовы</p>
+  <div class="rows">
+    <div class="row"><span>Количество</span><span class="val" id="succCount">1</span></div>
+    <div class="row"><span>Сумма</span><span class="val" id="succSum">5 000 ₽</span></div>
+  </div>
+  <button class="btn primary" id="btnShowTickets">Показать билеты</button>
+  <button class="btn" id="btnShare">Поделиться</button>
 </div>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -279,7 +246,7 @@
   const tg = window.Telegram.WebApp;
   tg.ready();
   tg.expand();
-  tg.setHeaderColor(tg.themeParams.bg_color || '#0b0f19');
+  tg.setHeaderColor(tg.themeParams.bg_color || '#06080f');
 
   const userAvatar = document.getElementById('userAvatar');
   const userName = document.getElementById('userName');
@@ -294,11 +261,26 @@
   const closeModal = document.getElementById('closeModal');
   const payBtn = document.getElementById('payBtn');
   const success = document.getElementById('success');
-  const closeSuccess = document.getElementById('closeSuccess');
+  const succCount = document.getElementById('succCount');
+  const succSum = document.getElementById('succSum');
+  const btnShowTickets = document.getElementById('btnShowTickets');
+  const btnShare = document.getElementById('btnShare');
   const ticketStrip = document.getElementById('ticketStrip');
+  const tabRub = document.getElementById('tabRub');
+  const tabUsdt = document.getElementById('tabUsdt');
+  const methodRub = document.getElementById('methodRub');
+  const methodUsdt = document.getElementById('methodUsdt');
 
-  const PRICE = 150;
+  const RUB_1 = 5000;
+  const RUB_4 = 10000;
+  const USDT_1 = 50;
+  const USDT_4 = 200;
+  const USDT_BONUS_PAID = 10;
+  const USDT_BONUS_FREE = 10;
+
+  let mode = 'rub';
   let count = 1;
+  let usdtMode = false;
 
   const user = tg.initDataUnsafe.user;
   if (user) {
@@ -312,51 +294,83 @@
     userHandle.textContent = '';
   }
 
-  function renderTickets() {
+  function formatMoney(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
+
+  function calc() {
+    if (mode === 'rub') {
+      const price = count >= 4 ? RUB_4 : RUB_1;
+      const per = count >= 4 ? RUB_4 / 4 : RUB_1;
+      return { total: count * per, label: price === RUB_1 ? '5 000 ₽' : '10 000 ₽', currency: '₽' };
+    } else {
+      const base = count >= 4 ? USDT_4 : USDT_1;
+      const paidBonus = usdtMode ? USDT_BONUS_PAID : 0;
+      const freeBonus = count >= 4 ? USDT_BONUS_FREE : 0;
+      const totalTickets = count + paidBonus + freeBonus;
+      return { total: count * (base / count), label: count * base + ' USDT', currency: 'USDT', tickets: totalTickets, bonus: paidBonus + freeBonus };
+    }
+  }
+
+  function renderTickets(totalTickets, paidTickets) {
     ticketStrip.innerHTML = '';
-    for (let i = 0; i < count; i++) {
+    const show = totalTickets || count;
+    for (let i = 0; i < show; i++) {
       const el = document.createElement('div');
-      el.className = 'ticket' + (i < count ? ' active' : '');
-      el.innerHTML = '<div class="num">#' + (i + 1) + '</div>Билет';
+      el.className = 'ticket active';
+      const isBonus = i >= (paidTickets || count);
+      el.innerHTML = '<div class="num">#' + (i + 1) + '</div>' + (isBonus ? '<div class="paid">Бонус</div>' : '<div class="paid">Оплачен</div>');
       ticketStrip.appendChild(el);
     }
   }
 
   function updateTotal() {
-    const total = count * PRICE;
+    const c = calc();
     countEl.textContent = count;
-    totalEl.textContent = total + ' ₽';
-    payPrice.textContent = total + ' ₽';
-    mainBtn.textContent = 'Оформить заказ на ' + total + ' ₽';
-    renderTickets();
+    totalEl.textContent = c.label;
+    payPrice.textContent = c.label;
+    mainBtn.textContent = 'Оформить заказ на ' + c.label;
     tg.MainButton.setText(mainBtn.textContent);
+    renderTickets(c.tickets, count);
   }
 
   btnMinus.addEventListener('click', () => { if (count > 1) { count--; updateTotal(); } });
   btnPlus.addEventListener('click', () => { count++; updateTotal(); });
 
+  tabRub.addEventListener('click', () => { mode = 'rub'; tabRub.classList.add('active'); tabUsdt.classList.remove('active'); methodRub.style.display = 'block'; methodUsdt.style.display = 'none'; updateTotal(); });
+  tabUsdt.addEventListener('click', () => { mode = 'usdt'; tabUsdt.classList.add('active'); tabRub.classList.remove('active'); methodRub.style.display = 'none'; methodUsdt.style.display = 'block'; updateTotal(); });
+
   mainBtn.addEventListener('click', () => { modal.classList.add('open'); });
   closeModal.addEventListener('click', () => { modal.classList.remove('open'); });
 
   payBtn.addEventListener('click', () => {
+    const c = calc();
     const order = {
-      item: 'Tesla Model 3 — билет на розыгрыш',
+      item: 'Ferrari F8 — билет на розыгрыш',
       quantity: count,
-      amount: count * PRICE,
-      currency: 'RUB',
+      amount: c.total,
+      currency: mode,
       user: user ? { id: user.id, first_name: user.first_name, username: user.username } : null,
-      time: Date.now()
+      time: Date.now(),
+      test: true
     };
     tg.sendData(JSON.stringify(order));
-    tg.showAlert('Заказ отправлен боту.');
+    tg.showAlert('Тестовый заказ отправлен.');
     modal.classList.remove('open');
+    succCount.textContent = c.tickets || count;
+    succSum.textContent = c.label;
     success.classList.add('open');
     mainBtn.textContent = 'Заказ оформлен';
     mainBtn.disabled = true;
     tg.MainButton.setText(mainBtn.textContent);
   });
 
-  closeSuccess.addEventListener('click', () => { success.classList.remove('open'); });
+  btnShowTickets.addEventListener('click', () => { tg.showAlert('Билеты сохранены в вашем профиле.'); });
+  btnShare.addEventListener('click', () => {
+    tg.switchInlineQuery('Прими участие в розыгрыше Ferrari F8! t.me/Chebotarev_ticket_bot/Chebotarev');
+  });
+
+  closeSuccess.addEventListener = null;
+  const cs = document.createElement('button');
+  // success close handled below
 
   tg.MainButton.setText(mainBtn.textContent);
   tg.MainButton.show();
